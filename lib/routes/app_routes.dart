@@ -11,6 +11,7 @@ class AppRoutes {
   static const String parentForgotPassword = '/parent-forgot-password';
 
   static const String parentHome = '/parent-home';
+  static const String parentArticle = '/parent-article';
   static const String parentFilteredSearch = '/parent-filtered-search';
   static const String parentScout = '/parent-scout';
   static const String parentProfile = '/parent-profile';

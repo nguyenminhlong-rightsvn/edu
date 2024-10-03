@@ -9,6 +9,7 @@ import 'package:interedu/modules/parent/auth/login/views/login_view.dart';
 import 'package:interedu/modules/parent/auth/register/views/register_view.dart';
 import 'package:interedu/modules/parent/auth/forgot_password/views/forgot_password_view.dart';
 import 'package:interedu/modules/parent/home/views/home_view.dart';
+import 'package:interedu/modules/parent/home/views/article_view.dart';
 import 'package:interedu/modules/parent/filtered_search/views/filtered_search_view.dart';
 import 'package:interedu/modules/parent/scout/views/scout_view.dart';
 import 'package:interedu/modules/parent/profile/views/profile_view.dart';
@@ -60,6 +61,10 @@ class AppPages {
     GetPage<dynamic>(
       name: AppRoutes.parentHome,
       page: () => const ParentHomeView(),
+    ),
+    GetPage<dynamic>(
+      name: AppRoutes.parentArticle,
+      page: () => const ParentArticleView(),
     ),
     GetPage<dynamic>(
       name: AppRoutes.parentFilteredSearch,

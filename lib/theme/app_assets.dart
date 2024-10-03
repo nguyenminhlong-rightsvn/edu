@@ -1,5 +1,6 @@
 class AppAssets {
   // images
+  static String get logo => 'assets/images/logo.png';
 
   // icons
   static String get icHome => 'assets/icons/ic_home.svg';

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:interedu/constants/enums.dart';
+import 'package:interedu/constants/constants.dart';
+import 'package:interedu/constants/app_strings.dart';
 import 'package:interedu/theme/app_assets.dart';
 import 'package:interedu/theme/app_colors.dart';
 import 'package:interedu/modules/main/controller/main_controller.dart';
@@ -27,9 +29,8 @@ class MainView extends GetView<MainController> {
       return CupertinoTabScaffold(
         controller: controller.tabController,
         tabBar: CupertinoTabBar(
-          height: 72,
-          border: null,
-          backgroundColor: Colors.white,
+          height: 76,
+          backgroundColor: AppColors.background,
           items: isParent
               ? _buildParentBottomBarItems(context)
               : _buildSchoolBottomBarItems(context),
@@ -53,10 +54,10 @@ class MainView extends GetView<MainController> {
     BuildContext context,
   ) {
     return [
-      _buildHomeButton(controller.tabIndex.value == 0, context),
-      _buildSearchButton(controller.tabIndex.value == 1, context),
-      _buildScoutButton(controller.tabIndex.value == 2, context),
-      _buildProfileButton(controller.tabIndex.value == 3, context),
+      _buildHomeButton(controller.tabIndex.value == 0, context, 0),
+      _buildSearchButton(controller.tabIndex.value == 1, context, 1),
+      _buildScoutButton(controller.tabIndex.value == 2, context, 2),
+      _buildProfileButton(controller.tabIndex.value == 3, context, 3),
     ];
   }
 
@@ -64,11 +65,11 @@ class MainView extends GetView<MainController> {
     BuildContext context,
   ) {
     return [
-      _buildHomeButton(controller.tabIndex.value == 0, context),
-      _buildSearchButton(controller.tabIndex.value == 1, context),
-      _buildFavoritesButton(controller.tabIndex.value == 2, context),
-      _buildScoutButton(controller.tabIndex.value == 3, context),
-      _buildProfileButton(controller.tabIndex.value == 4, context),
+      _buildHomeButton(controller.tabIndex.value == 0, context, 0),
+      _buildSearchButton(controller.tabIndex.value == 1, context, 1),
+      _buildFavoritesButton(controller.tabIndex.value == 2, context, 2),
+      _buildScoutButton(controller.tabIndex.value == 3, context, 3),
+      _buildProfileButton(controller.tabIndex.value == 4, context, 4),
     ];
   }
 
@@ -134,61 +135,71 @@ class MainView extends GetView<MainController> {
   BottomNavigationBarItem _buildHomeButton(
     bool isActive,
     BuildContext context,
+    int index,
   ) {
     bool isParent = controller.currentRole.value == Role.parent;
     return _buildButton(
       isParent ? AppAssets.icHome : AppAssets.icFootprint,
-      'Home',
+      isParent ? AppStrings.menuHome : AppStrings.menuVisitorLog,
       isActive,
       context,
+      index,
     );
   }
 
   BottomNavigationBarItem _buildSearchButton(
     bool isActive,
     BuildContext context,
+    int index,
   ) {
     return _buildButton(
       AppAssets.icFind,
-      'Search',
+      AppStrings.menuSearch,
       isActive,
       context,
+      index,
     );
   }
 
   BottomNavigationBarItem _buildScoutButton(
     bool isActive,
     BuildContext context,
+    int index,
   ) {
     return _buildButton(
       AppAssets.icMessage,
-      'Scout',
+      AppStrings.menuScout,
       isActive,
       context,
+      index,
     );
   }
 
   BottomNavigationBarItem _buildFavoritesButton(
     bool isActive,
     BuildContext context,
+    int index,
   ) {
     return _buildButton(
       AppAssets.icFavorite,
-      'Favorites',
+      AppStrings.menuFavorites,
       isActive,
       context,
+      index,
     );
   }
 
   BottomNavigationBarItem _buildProfileButton(
     bool isActive,
     BuildContext context,
+    int index,
   ) {
     return _buildButton(
       AppAssets.icUser,
-      'Profile',
+      AppStrings.menuProfile,
       isActive,
       context,
+      index,
     );
   }
 
@@ -197,10 +208,25 @@ class MainView extends GetView<MainController> {
     String label,
     bool isActive,
     BuildContext context,
+    int index,
   ) {
+    bool isParent = controller.currentRole.value == Role.parent;
+    int totalButtons = isParent ? 4 : 5;
+
     return BottomNavigationBarItem(
-      icon: Padding(
+      icon: Container(
+        height: 60,
+        margin: EdgeInsets.only(
+          left: index == 0 ? 10 : 0,
+          right: index == totalButtons - 1 ? 10 : 0,
+        ),
         padding: const EdgeInsets.only(top: 4),
+        decoration: BoxDecoration(
+          color: isActive
+              ? (isParent ? AppColors.primary : AppColors.secondary)
+              : Colors.transparent,
+          borderRadius: BorderRadius.circular(5),
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisSize: MainAxisSize.min,
@@ -208,23 +234,27 @@ class MainView extends GetView<MainController> {
           children: [
             SvgPicture.asset(
               iconPath,
-              width: 38,
-              height: 38,
-            ),
-            Text(
-              textAlign: TextAlign.center,
-              label,
-              style: isActive
-                  ? TextStyle(
-                      fontSize: 14,
-                      color: AppColors.primary,
-                      fontWeight: FontWeight.w800,
-                    )
-                  : TextStyle(
-                      fontSize: 14,
-                      color: AppColors.primary.withOpacity(0.7),
-                      fontWeight: FontWeight.w700,
+              width: 24,
+              height: 24,
+              colorFilter: isActive
+                  ? ColorFilter.mode(AppColors.white, BlendMode.srcIn)
+                  : ColorFilter.mode(
+                      AppColors.bottomText,
+                      BlendMode.srcIn,
                     ),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              label,
+              textAlign: TextAlign.center,
+              softWrap: true,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                fontSize: 12,
+                fontFamily: Constants.fontNotoSansJP,
+                color: isActive ? AppColors.white : AppColors.bottomText,
+                fontWeight: FontWeight.w700,
+              ),
             ),
           ],
         ),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:interedu/routes/app_routes.dart';
+import 'package:interedu/constants/app_strings.dart';
 import 'package:interedu/modules/parent/auth/login/controller/login_controller.dart';
 
 class ParentLoginView extends GetView<ParentLoginController> {
@@ -24,7 +26,19 @@ class ParentLoginView extends GetView<ParentLoginController> {
               onPressed: () async {
                 await controller.login();
               },
-              child: const Text('Login'),
+              child: const Text(AppStrings.loginButton),
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                Navigator.of(context).pushNamed(AppRoutes.parentRegister);
+              },
+              child: const Text(AppStrings.registerButton),
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                Navigator.of(context).pushNamed(AppRoutes.parentForgotPassword);
+              },
+              child: const Text(AppStrings.forgotPasswordButton),
             ),
           ],
         ),

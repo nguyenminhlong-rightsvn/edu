@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:interedu/routes/app_pages.dart';
+import 'package:interedu/constants/constants.dart';
 
 class InterEduExamineeMatchingMobile extends StatelessWidget {
   const InterEduExamineeMatchingMobile({super.key});
@@ -11,6 +12,9 @@ class InterEduExamineeMatchingMobile extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: AppPages.initial,
       getPages: AppPages.routes,
+      theme: ThemeData(
+        fontFamily: Constants.fontNotoSansJP,
+      ),
     );
   }
 }

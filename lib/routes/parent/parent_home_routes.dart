@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
+import 'package:interedu/routes/app_routes.dart';
 import 'package:interedu/modules/parent/home/views/home_view.dart';
+import 'package:interedu/modules/parent/home/views/article_view.dart';
 
 class ParentHomeRoutes {
   static Route<dynamic> onGenerateRoute(RouteSettings routeSettings) {
@@ -7,6 +9,11 @@ class ParentHomeRoutes {
       case '/':
         return CupertinoPageRoute(
           builder: (_) => const ParentHomeView(),
+          settings: routeSettings,
+        );
+      case AppRoutes.parentArticle:
+        return CupertinoPageRoute(
+          builder: (_) => const ParentArticleView(),
           settings: routeSettings,
         );
       default:

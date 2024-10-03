@@ -1,4 +1,5 @@
-class Constant {
-  static const String fontPrimary = '';
-  static const String fontSecondary = '';
+class Constants {
+  // Font family constants
+  static const String fontNotoSansJP = 'NotoSansJP';
+  static const String fontInter = 'Inter';
 }

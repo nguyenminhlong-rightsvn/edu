@@ -20,6 +20,12 @@ class ParentHomeView extends GetView<ParentHomeController> {
             const Text('Parent Home'),
             ElevatedButton(
               onPressed: () async {
+                Navigator.of(context).pushNamed(AppRoutes.parentArticle);
+              },
+              child: const Text('Article View'),
+            ),
+            ElevatedButton(
+              onPressed: () async {
                 Globals globals = Globals();
                 await globals.saveUserRole(null);
                 Get.offAllNamed(AppRoutes.accountSelection);
