@@ -1,40 +1,38 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:interedu/constants/enums.dart';
+import 'package:interedu/theme/app_assets.dart';
 import 'package:interedu/theme/app_colors.dart';
 import 'package:interedu/modules/main/controller/main_controller.dart';
-import 'package:interedu/routes/parent/parent_filtered_search_routes.dart';
-import 'package:interedu/routes/parent/parent_profile_routes.dart';
 import 'package:interedu/routes/parent/parent_home_routes.dart';
 import 'package:interedu/routes/parent/parent_scout_routes.dart';
-import 'package:interedu/routes/school/school_favorites_routes.dart';
-import 'package:interedu/routes/school/school_filtered_search_routes.dart';
-import 'package:interedu/routes/school/school_profile_routes.dart';
+import 'package:interedu/routes/parent/parent_profile_routes.dart';
+import 'package:interedu/routes/parent/parent_filtered_search_routes.dart';
 import 'package:interedu/routes/school/school_scout_routes.dart';
+import 'package:interedu/routes/school/school_profile_routes.dart';
+import 'package:interedu/routes/school/school_favorites_routes.dart';
 import 'package:interedu/routes/school/school_visitor_log_routes.dart';
+import 'package:interedu/routes/school/school_filtered_search_routes.dart';
 
 class MainView extends GetView<MainController> {
   const MainView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return _buildMainView(context, true);
-  }
+    return Obx(() {
+      bool isParent = controller.currentRole.value == Role.parent;
 
-  Widget _buildMainView(BuildContext context, bool isParent) {
-    return Obx(
-      () => CupertinoTabScaffold(
+      return CupertinoTabScaffold(
         controller: controller.tabController,
         tabBar: CupertinoTabBar(
           height: 72,
           border: null,
           backgroundColor: Colors.white,
-          items: [
-            _buildHomeButton(controller.tabIndex.value == 0, context),
-            _buildCourseButton(controller.tabIndex.value == 1, context),
-            _buildNotificationButton(controller.tabIndex.value == 2, context),
-            _buildSettingButton(controller.tabIndex.value == 3, context),
-          ],
+          items: isParent
+              ? _buildParentBottomBarItems(context)
+              : _buildSchoolBottomBarItems(context),
           onTap: (index) {
             controller.tabIndex(index);
           },
@@ -47,8 +45,31 @@ class MainView extends GetView<MainController> {
           }
         },
         resizeToAvoidBottomInset: true,
-      ),
-    );
+      );
+    });
+  }
+
+  List<BottomNavigationBarItem> _buildParentBottomBarItems(
+    BuildContext context,
+  ) {
+    return [
+      _buildHomeButton(controller.tabIndex.value == 0, context),
+      _buildSearchButton(controller.tabIndex.value == 1, context),
+      _buildScoutButton(controller.tabIndex.value == 2, context),
+      _buildProfileButton(controller.tabIndex.value == 3, context),
+    ];
+  }
+
+  List<BottomNavigationBarItem> _buildSchoolBottomBarItems(
+    BuildContext context,
+  ) {
+    return [
+      _buildHomeButton(controller.tabIndex.value == 0, context),
+      _buildSearchButton(controller.tabIndex.value == 1, context),
+      _buildFavoritesButton(controller.tabIndex.value == 2, context),
+      _buildScoutButton(controller.tabIndex.value == 3, context),
+      _buildProfileButton(controller.tabIndex.value == 4, context),
+    ];
   }
 
   Widget _buildParentTabView(BuildContext context, int index) {
@@ -111,35 +132,60 @@ class MainView extends GetView<MainController> {
   }
 
   BottomNavigationBarItem _buildHomeButton(
-      bool isActive, BuildContext context) {
+    bool isActive,
+    BuildContext context,
+  ) {
+    bool isParent = controller.currentRole.value == Role.parent;
     return _buildButton(
+      isParent ? AppAssets.icHome : AppAssets.icFootprint,
       'Home',
       isActive,
       context,
     );
   }
 
-  BottomNavigationBarItem _buildCourseButton(
-      bool isActive, BuildContext context) {
+  BottomNavigationBarItem _buildSearchButton(
+    bool isActive,
+    BuildContext context,
+  ) {
     return _buildButton(
+      AppAssets.icFind,
       'Search',
       isActive,
       context,
     );
   }
 
-  BottomNavigationBarItem _buildNotificationButton(
-      bool isActive, BuildContext context) {
+  BottomNavigationBarItem _buildScoutButton(
+    bool isActive,
+    BuildContext context,
+  ) {
     return _buildButton(
+      AppAssets.icMessage,
       'Scout',
       isActive,
       context,
     );
   }
 
-  BottomNavigationBarItem _buildSettingButton(
-      bool isActive, BuildContext context) {
+  BottomNavigationBarItem _buildFavoritesButton(
+    bool isActive,
+    BuildContext context,
+  ) {
     return _buildButton(
+      AppAssets.icFavorite,
+      'Favorites',
+      isActive,
+      context,
+    );
+  }
+
+  BottomNavigationBarItem _buildProfileButton(
+    bool isActive,
+    BuildContext context,
+  ) {
+    return _buildButton(
+      AppAssets.icUser,
       'Profile',
       isActive,
       context,
@@ -147,6 +193,7 @@ class MainView extends GetView<MainController> {
   }
 
   BottomNavigationBarItem _buildButton(
+    String iconPath,
     String label,
     bool isActive,
     BuildContext context,
@@ -159,6 +206,11 @@ class MainView extends GetView<MainController> {
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            SvgPicture.asset(
+              iconPath,
+              width: 38,
+              height: 38,
+            ),
             Text(
               textAlign: TextAlign.center,
               label,

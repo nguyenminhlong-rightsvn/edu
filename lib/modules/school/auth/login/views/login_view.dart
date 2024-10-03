@@ -8,14 +8,24 @@ class SchoolLoginView extends GetView<SchoolLoginController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('School Login'),
-      ),
-      body: const Center(
+      body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text('School Login'),
+            const Text(
+              'School Login',
+              style: TextStyle(
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () async {
+                await controller.login();
+              },
+              child: const Text('Login'),
+            ),
           ],
         ),
       ),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:interedu/globals.dart';
+import 'package:interedu/routes/app_routes.dart';
 import 'package:interedu/modules/school/visitor_log/controller/visitor_log_controller.dart';
 
 class SchoolVisitorLogView extends GetView<SchoolVisitorLogController> {
@@ -11,11 +13,19 @@ class SchoolVisitorLogView extends GetView<SchoolVisitorLogController> {
       appBar: AppBar(
         title: const Text('School Visitor Log'),
       ),
-      body: const Center(
+      body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text('School Visitor Log'),
+            const Text('School Visitor Log'),
+            ElevatedButton(
+              onPressed: () async {
+                Globals globals = Globals();
+                await globals.saveUserRole(null);
+                Get.offAllNamed(AppRoutes.accountSelection);
+              },
+              child: const Text('Logout'),
+            ),
           ],
         ),
       ),

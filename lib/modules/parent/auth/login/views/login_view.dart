@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:interedu/routes/app_routes.dart';
 import 'package:interedu/modules/parent/auth/login/controller/login_controller.dart';
 
 class ParentLoginView extends GetView<ParentLoginController> {
@@ -22,8 +21,8 @@ class ParentLoginView extends GetView<ParentLoginController> {
             ),
             const SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () {
-                Get.offAllNamed(AppRoutes.root);
+              onPressed: () async {
+                await controller.login();
               },
               child: const Text('Login'),
             ),

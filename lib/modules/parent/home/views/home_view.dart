@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:interedu/globals.dart';
+import 'package:interedu/routes/app_routes.dart';
 import 'package:interedu/modules/parent/home/controller/home_controller.dart';
 
 class ParentHomeView extends GetView<ParentHomeController> {
@@ -11,11 +13,19 @@ class ParentHomeView extends GetView<ParentHomeController> {
       appBar: AppBar(
         title: const Text('Parent Home'),
       ),
-      body: const Center(
+      body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text('Parent Home'),
+            const Text('Parent Home'),
+            ElevatedButton(
+              onPressed: () async {
+                Globals globals = Globals();
+                await globals.saveUserRole(null);
+                Get.offAllNamed(AppRoutes.accountSelection);
+              },
+              child: const Text('Logout'),
+            ),
           ],
         ),
       ),
